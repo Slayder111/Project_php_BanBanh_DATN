@@ -156,7 +156,7 @@ class HomeController extends Controller
         ], [
             'email.required' => 'Phải điền đủ thông tin',
             'email.email' => 'Vui lòng nhập đúng định dạng email.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.required' => 'Phải điền đủ thông tin',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
 
