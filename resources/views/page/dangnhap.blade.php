@@ -35,7 +35,7 @@
                     <div class="space20">&nbsp;</div>
 
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="email">Email address*</label>
                         <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
                         @if ($errors->has('email'))
@@ -51,7 +51,41 @@
                             style="font-size: 14px;">{{ $errors->first('password') }}</span>
                         @endif
 
-                    </div>
+                    </div> -->
+                    <div class="form-group">
+    <label for="email">Email address*</label>
+    <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+    @if ($errors->has('email'))
+        <span class="text-danger font-italic font-weight-lighter" style="font-size: 14px;">
+            {{ $errors->first('email') }}
+        </span>
+    @endif
+</div>
+
+<div class="form-group">
+    <label for="password">Password*</label>
+    <input type="password" class="form-control" name="password" value="{{ old('password') }}">
+    @if ($errors->has('password'))
+        <span class="text-danger font-italic font-weight-lighter" style="font-size: 14px;">
+            {{ $errors->first('password') }}
+        </span>
+    @endif
+</div>
+
+<!-- Thông báo đăng nhập không thành công -->
+@if (session('error'))
+    <div class="alert alert-danger" style="font-size: 14px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+<!-- Thông báo đăng nhập thành công -->
+<!-- @if (session('thongbaodn'))
+    <div class="alert alert-success" style="font-size: 14px;">
+        {{ session('thongbaodn') }}
+    </div>
+@endif -->
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Đăng Nhập</button>
                     </div>

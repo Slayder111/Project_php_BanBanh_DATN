@@ -146,29 +146,42 @@ class HomeController extends Controller
     {
         return view('page.dangnhap');
     }
-    public function postDangnhap(Request $re)
+
+    public function postDangnhap(Request $request)
     {
-        $this->validate($re,
-            [
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-        $hi = array('email' => $re->email, 'password' => $re->password);
-        if (Auth::attempt($hi)) {
+        // Xác thực dữ liệu nhập vào
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ], [
+            'email.required' => 'Phải điền đủ thông tin',
+            'email.email' => 'Vui lòng nhập đúng định dạng email.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+        ]);
+
+        // Lấy thông tin đăng nhập từ yêu cầu
+        $credentials = $request->only('email', 'password');
+
+        // Thử đăng nhập
+        if (Auth::attempt($credentials)) {
+            // Đăng nhập thành công
             $name = Auth::user()->full_name;
             $id = Auth::user()->id;
             Session::put('user_name', $name);
             Session::put('user_id', $id);
-            if ((Auth::user()->idGroup) > 0) {
-                Cookie::queue('admin_name', $name, 60 * 24 * 30); //cookie ton tai trong 30 ngay
-                Cookie::queue('admin_id', $id, 60 * 24 * 30); //cookie ton tai trong 30 ngay
-                Cookie::queue('admin_email', $re->email, 60 * 24 * 30); //cookie ton tai trong 30 ngay
+
+            if (Auth::user()->idGroup > 0) {
+                Cookie::queue('admin_name', $name, 60 * 24 * 30); // cookie tồn tại trong 30 ngày
+                Cookie::queue('admin_id', $id, 60 * 24 * 30); // cookie tồn tại trong 30 ngày
+                Cookie::queue('admin_email', $request->email, 60 * 24 * 30); // cookie tồn tại trong 30 ngày
             }
 
-            return redirect()->back()->with('thongbaodn', "Đăng nhập thành công");
+            return redirect('/')->with('thongbaodn', 'Đăng nhập thành công');
+        } else {
+            // Đăng nhập không thành công, quay lại với thông báo lỗi
+            return redirect()->back()->withErrors(['password' => 'Bạn đã nhập sai Email hoặc mật khẩu'])->withInput($request->only('email'));
         }
-        return redirect()->back()->with('error', 'Đăng nhập thất bại');
-
     }
     public function getLaylaimatkhau()
     {
