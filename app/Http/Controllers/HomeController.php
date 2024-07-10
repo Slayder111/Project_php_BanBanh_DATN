@@ -154,9 +154,9 @@ class HomeController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-            'email.required' => 'Phải điền đủ thông tin',
+            'email.required' => 'Phải điền đủ thông tin.',
             'email.email' => 'Vui lòng nhập đúng định dạng email.',
-            'password.required' => 'Phải điền đủ thông tin',
+            'password.required' => 'Phải điền đủ thông tin.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
 
@@ -180,7 +180,7 @@ class HomeController extends Controller
             return redirect('/')->with('thongbaodn', 'Đăng nhập thành công');
         } else {
             // Đăng nhập không thành công, quay lại với thông báo lỗi
-            return redirect()->back()->withErrors(['password' => 'Bạn đã nhập sai Email hoặc mật khẩu'])->withInput($request->only('email'));
+            return redirect()->back()->withErrors(['password' => 'Bạn đã nhập sai email hoặc mật khẩu.'])->withInput($request->only('email'));
         }
     }
     public function getLaylaimatkhau()
