@@ -177,7 +177,7 @@ class HomeController extends Controller
                 Cookie::queue('admin_email', $request->email, 60 * 24 * 30); // cookie tồn tại trong 30 ngày
             }
 
-            return redirect('/')->with('thongbaodn', 'Đăng nhập thành công');
+            return redirect()->back()->with('thongbaodn', 'Đăng nhập thành công');
         } else {
             // Đăng nhập không thành công, quay lại với thông báo lỗi
             return redirect()->back()->withErrors(['password' => 'Bạn đã nhập sai email hoặc mật khẩu.'])->withInput($request->only('email'));
